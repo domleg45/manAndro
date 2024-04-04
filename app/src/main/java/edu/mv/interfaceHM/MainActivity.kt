@@ -3,23 +3,21 @@ package edu.mv.interfaceHM
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.mediarouter.app.MediaRouteButton
 import androidx.tv.material3.ExperimentalTvMaterial3Api
-import androidx.tv.material3.Text
-import edu.mv.interfaceHM.R
-import edu.mv.interfaceHM.ui.theme.MyApplicationTheme
 import com.google.android.gms.cast.framework.CastButtonFactory
 import com.google.android.gms.cast.framework.CastContext
 import com.google.android.gms.cast.framework.CastSession
+import com.google.android.gms.cast.framework.SessionManagerListener
+import edu.mv.interfaceHM.NameSpace.SENDER_NAMESPACE
 import org.json.JSONObject
 import java.util.concurrent.Executors
 
 
 class MainActivity : FragmentActivity() {
+
     private var mCastSession: CastSession? = null
     private var posX = 200
     private var posY = 200
@@ -32,7 +30,6 @@ class MainActivity : FragmentActivity() {
 
     private var mCastContext: CastContext? = null
     private var mMediaRouteButton: MediaRouteButton? = null
-    private var CUSTOM_NAMESPACE: String = "urn:x-cast:testChannel"
 
     @OptIn(ExperimentalTvMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +38,13 @@ class MainActivity : FragmentActivity() {
         mMediaRouteButton = findViewById<View>(R.id.media_route_button) as MediaRouteButton
         CastButtonFactory.setUpMediaRouteButton(applicationContext, mMediaRouteButton!!)
         mCastContext = CastContext.getSharedInstance(this)
+
+
+        val statusView = findViewById<TextView>(R.id.status_text) as TextView
+        val msgCallback = MyMessageReceivedCallback(statusView);
+        val mSessionManagerListener = MySessionManagerListener(msgCallback)
+        val mSessionManager = mCastContext!!.sessionManager
+        mSessionManager.addSessionManagerListener(mSessionManagerListener, CastSession::class.java)
 
         val upBtn = findViewById<Button>(R.id.up) as Button
         upBtn.setOnClickListener() {
@@ -53,7 +57,7 @@ class MainActivity : FragmentActivity() {
                 rootObject.put("msg",posX.toString().plus(",").plus(posY));
             }
 
-            castSession?.sendMessage("urn:x-cast:testChannel", rootObject.toString());
+            castSession?.sendMessage(SENDER_NAMESPACE, rootObject.toString());
         }
 
 
@@ -68,7 +72,7 @@ class MainActivity : FragmentActivity() {
                 rootObject.put("msg",posX.toString().plus(",").plus(posY));
             }
 
-            castSession?.sendMessage("urn:x-cast:testChannel", rootObject.toString());
+            castSession?.sendMessage(SENDER_NAMESPACE, rootObject.toString());
         }
 
         val rightBtn = findViewById<Button>(R.id.right) as Button
@@ -82,7 +86,7 @@ class MainActivity : FragmentActivity() {
                 rootObject.put("msg",posX.toString().plus(",").plus(posY));
             }
 
-            castSession?.sendMessage("urn:x-cast:testChannel", rootObject.toString());
+            castSession?.sendMessage(SENDER_NAMESPACE, rootObject.toString());
         }
 
         val downBtn = findViewById<Button>(R.id.down) as Button
@@ -95,37 +99,9 @@ class MainActivity : FragmentActivity() {
                 posY = posY + stepY;
                 rootObject.put("msg",posX.toString().plus(",").plus(posY));
             }
-            castSession?.sendMessage("urn:x-cast:testChannel", rootObject.toString());
+            castSession?.sendMessage(SENDER_NAMESPACE, rootObject.toString());
         }
 
     }
 
-/**    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        super.onCreateOptionsMenu(menu)
-        menuInflater.inflate(R.menu.menu, menu)
-        CastButtonFactory.setUpMediaRouteButton(
-            applicationContext,
-            menu,
-            R.id.media_route_menu_item
-        )
-        return true
-    }*/
-}
-
-
-@OptIn(ExperimentalTvMaterial3Api::class)
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-            text = "Hello $name!",
-            modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MyApplicationTheme {
-        Greeting("Android")
-    }
 }

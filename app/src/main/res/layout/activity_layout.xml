@@ -11,7 +11,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <androidx.mediarouter.app.MediaRouteButton
                 android:id="@+id/media_route_button"
@@ -28,9 +28,9 @@
 
             <Button
                 android:id="@+id/up"
-                android:layout_width="wrap_content"
+                android:layout_width="123dp"
                 android:layout_height="wrap_content"
-                android:drawableTop="@drawable/baseline_arrow_upward_24"/>
+                android:drawableTop="@drawable/baseline_arrow_upward_24" />
         </TableRow>
 
         <TableRow
@@ -41,21 +41,21 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/left"
-                    android:layout_width="wrap_content"
+                    android:layout_width="143dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:drawableTop="@drawable/baseline_arrow_back_24" />
 
                 <Button
                     android:id="@+id/right"
-                    android:layout_width="wrap_content"
+                    android:layout_width="143dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:drawableTop="@drawable/baseline_arrow_forward_24" />
             </LinearLayout>
         </TableRow>
@@ -67,9 +67,20 @@
 
             <Button
                 android:id="@+id/down"
-                android:layout_width="wrap_content"
+                android:layout_width="123dp"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/baseline_arrow_downward_24" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/status_text"
+                android:layout_width="123dp"
+                android:layout_height="35dp"
+                android:text="aucun nouveau message" />
         </TableRow>
     </TableLayout>
 </LinearLayout>
