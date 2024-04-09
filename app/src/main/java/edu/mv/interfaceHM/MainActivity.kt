@@ -26,8 +26,6 @@ class MainActivity : FragmentActivity() {
     private var stepX = 5
     private var stepY = 5
 
-
-
     private var mCastContext: CastContext? = null
     private var mMediaRouteButton: MediaRouteButton? = null
 
@@ -41,7 +39,7 @@ class MainActivity : FragmentActivity() {
 
 
         val statusView = findViewById<TextView>(R.id.status_text) as TextView
-        val msgCallback = MyMessageReceivedCallback(statusView);
+        val msgCallback = MyMessageReceivedCallback(this);
         val mSessionManagerListener = MySessionManagerListener(msgCallback)
         val mSessionManager = mCastContext!!.sessionManager
         mSessionManager.addSessionManagerListener(mSessionManagerListener, CastSession::class.java)
