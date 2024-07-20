@@ -1,5 +1,7 @@
 pipeline {
-    agent { docker { image 'maven:3.9.7-eclipse-temurin-21-alpine' } }
+    agent { 
+       label 'agent1'
+    }
     stages {
         stage('build') {
             steps {
